@@ -30,13 +30,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        if: github.ref == 'refs/heads/main'
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       - name: Get date
         if: github.ref == 'refs/heads/main'
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
@@ -50,4 +43,3 @@ jobs:
           build-args: |
             VERSION=${{ env.VERSION }}
           tags: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-${{ env.date }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
-          labels: ${{ steps.meta.outputs.labels }}
