@@ -25,9 +25,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.IMAGE_NAME }}
+          images: |
+            ${{ env.IMAGE_NAME }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           labels: |
             org.opencontainers.image.version=${{ env.VERSION }}
+            org.opencontainers.image.title=Slack-Time-Localization-Bot
             org.opencontainers.image.source=https://github.com/Slack-Time-Localization-Bot/Slack-Time-Localization-Bot
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -51,7 +54,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           build-args: |
             VERSION=${{ env.VERSION }}
           tags: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-${{ env.date }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
