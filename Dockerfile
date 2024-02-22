@@ -1,7 +1,7 @@
 FROM python:3.12
 
-ARG version
+ARG VERSION
 
-RUN pip install "slack-time-localization-bot==${version}"
+RUN pip install "slack-time-localization-bot==${VERSION}"
 
 ENTRYPOINT ["slack-time-localization-bot"]
