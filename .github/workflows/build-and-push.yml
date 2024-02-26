@@ -21,15 +21,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          labels: |
-            org.opencontainers.image.version=${{ env.VERSION }}
-            org.opencontainers.image.title=Slack-Time-Localization-Bot
-            org.opencontainers.image.source=https://github.com/Slack-Time-Localization-Bot/Slack-Time-Localization-Bot
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -46,6 +37,16 @@ jobs:
       - name: Get date
         if: github.ref == 'refs/heads/main'
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.version=${{ env.VERSION }}-${{ env.date }}
+            org.opencontainers.image.title=Slack-Time-Localization-Bot
+            org.opencontainers.image.source=https://github.com/Slack-Time-Localization-Bot/Slack-Time-Localization-Bot
 
       - name: Build and push Docker image
         if: github.ref == 'refs/heads/main'
