@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: slack-time-localization-bot/slack-time-localization-bot
-  VERSION: 0.1.11
+  VERSION: 0.1.12
 
 jobs:
   build-and-push-image:
